@@ -3,10 +3,6 @@
             [clojure.pprint :refer :all])
   (:gen-class))
 
-(defn in->keyword [pergunta]
-  (println pergunta)
-  (keyword (read-line)))
-
 (defn in->bigint [pergunta]
   (println pergunta)
   (bigint (read-line)))
@@ -35,7 +31,7 @@
     {mes (formata-hora (reduce + (mes mapa)))}))
 
 (defn -main [& args]
-  (let [mes (in->keyword "mes: ")
+  (let [mes (keyword (first args))
         dia (in->bigint "dia: ")
         minutos (in->bigint "minutos: ")
         mapa (carrega "ponto.map")
