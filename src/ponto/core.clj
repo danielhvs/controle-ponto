@@ -30,13 +30,33 @@
   (for [mes [:jan :fev :mar :abr :mai :jun :jul :ago :set :out :nov :dez]]
     {mes (formata-hora (reduce + (mes mapa)))}))
 
-(defn -main [& args]
-  (let [mapa (carrega "ponto.map")]
-    (if (= "sumario" (first args))
-        (pprint (sumariza mapa))
-        (let [mes (keyword (first args))
+(defn sumario [mapa & args]
+  (pprint (sumariza mapa)))
+
+(defn horas [mapa & args]
+  (let [mes (keyword (second (first args)))
+        resultado (map formata-hora (mes mapa))]
+    (pprint resultado)))
+
+(defn gravar [mapa & args]
+  (let [mes (keyword (second (first args)))
               dia (in->bigint "dia: ")
               minutos (in->bigint "minutos: ")
               ponto (adiciona-hora mapa mes dia minutos)]
           (pprint (sumariza ponto))
-          (salva "ponto.map" ponto)))))
+          (salva "ponto.map" ponto)))
+
+
+(def funcionalidades
+  {:sumario sumario
+   :horas horas
+   :gravar gravar})
+
+(defn -main [& args]
+  (if-let [key-funcao (keyword (first args))]
+    (if-let [funcao (key-funcao funcionalidades)]
+      (let [mapa (carrega "ponto.map")]
+        (funcao mapa args))
+      (pprint funcionalidades))
+    (pprint funcionalidades)))
+
