@@ -31,10 +31,12 @@
     {mes (formata-hora (reduce + (mes mapa)))}))
 
 (defn -main [& args]
-  (let [mes (keyword (first args))
-        dia (in->bigint "dia: ")
-        minutos (in->bigint "minutos: ")
-        mapa (carrega "ponto.map")
-        ponto (adiciona-hora mapa mes dia minutos)]
-    (pprint (sumariza ponto))
-    (salva "ponto.map" ponto)))
+  (let [mapa (carrega "ponto.map")]
+    (if (= "sumario" (first args))
+        (pprint (sumariza mapa))
+        (let [mes (keyword (first args))
+              dia (in->bigint "dia: ")
+              minutos (in->bigint "minutos: ")
+              ponto (adiciona-hora mapa mes dia minutos)]
+          (pprint (sumariza ponto))
+          (salva "ponto.map" ponto)))))
