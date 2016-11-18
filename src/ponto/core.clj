@@ -35,17 +35,16 @@
 
 (defn horas [mapa & args]
   (let [mes (keyword (second (first args)))
-        resultado (map formata-hora (mes mapa))]
+        resultado (map-indexed #(vector (inc %1) (formata-hora %2)) (mes mapa))]
     (pprint resultado)))
 
 (defn gravar [mapa & args]
   (let [mes (keyword (second (first args)))
-              dia (in->bigint "dia: ")
-              minutos (in->bigint "minutos: ")
-              ponto (adiciona-hora mapa mes dia minutos)]
-          (pprint (sumariza ponto))
-          (salva "ponto.map" ponto)))
-
+        dia (in->bigint "dia: ")
+        minutos (in->bigint "minutos: ")
+        ponto (adiciona-hora mapa mes dia minutos)]
+    (pprint (sumariza ponto))
+    (salva "ponto.map" ponto)))
 
 (def funcionalidades
   {:sumario sumario
