@@ -21,8 +21,8 @@
 
 (defn formata-hora [minutos]
   (let [horas (quot minutos 60)
-        minutos-restantes (- minutos (* 60 horas))]
-    (if (> horas 0)
+        minutos-restantes (-> minutos (- (-> 60 (* horas))))]
+    (if (-> horas (> 0))
         (str horas "h" minutos-restantes "min")
         (str minutos-restantes "min"))))
 
@@ -33,13 +33,16 @@
 (defn sumario [mapa & args]
   (pprint (sumariza mapa)))
 
+(defn second-arg->keyword [args]
+  (->> args (first) (second) (keyword)))
+
 (defn horas [mapa & args]
-  (let [mes (keyword (second (first args)))
+  (let [mes (second-arg->keyword args)
         resultado (map-indexed #(vector (inc %1) (formata-hora %2)) (mes mapa))]
     (pprint resultado)))
 
 (defn gravar [mapa & args]
-  (let [mes (keyword (second (first args)))
+  (let [mes (second-arg->keyword args)
         dia (in->bigint "dia: ")
         minutos (in->bigint "minutos: ")
         ponto (adiciona-hora mapa mes dia minutos)]
@@ -58,4 +61,3 @@
         (funcao mapa args))
       (pprint funcionalidades))
     (pprint funcionalidades)))
-
