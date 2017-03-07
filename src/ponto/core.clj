@@ -7,6 +7,9 @@
   (println pergunta)
   (bigint (read-line)))
 
+(defn abs [x]
+  (if (> x 0) x (- x)))
+
 (defn salva [arquivo conteudo]
   (-> (str "resources/" arquivo)
       (spit conteudo)))
@@ -22,8 +25,8 @@
 (defn formata-hora [minutos]
   (let [horas (quot minutos 60)
         minutos-restantes (-> minutos (- (-> 60 (* horas))))]
-    (if (-> horas (> 0))
-        (str horas "h" minutos-restantes "min")
+    (if (-> horas (not= 0))
+        (str horas "h" (abs minutos-restantes) "min")
         (str minutos-restantes "min"))))
 
 (defn sumariza [mapa]
