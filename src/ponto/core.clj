@@ -26,7 +26,7 @@
   (let [horas (quot minutos 60)
         minutos-restantes (-> minutos (- (-> 60 (* horas))))]
     (if (-> horas (not= 0))
-        (str horas "h" (abs minutos-restantes) "min")
+        (str horas "h" (abs minutos-restantes) "min ou " minutos " min")
         (str minutos-restantes "min"))))
 
 (defn sumariza [mapa]
@@ -51,6 +51,9 @@
         ponto (adiciona-hora mapa mes dia minutos)]
     (pprint (sumariza ponto))
     (salva "ponto.map" ponto)))
+
+(comment 
+         (defn resumo [mapa & args]))
 
 (def funcionalidades
   {:sumario sumario
