@@ -3,6 +3,8 @@
             [clojure.pprint :refer :all])
   (:gen-class))
 
+(def meses [:jan :fev :mar :abr :mai :jun :jul :ago :set :out :nov :dez])
+
 (defn in->bigint [pergunta]
   (println pergunta)
   (bigint (read-line)))
@@ -30,7 +32,7 @@
         (str minutos-restantes "min"))))
 
 (defn sumariza [mapa]
-  (for [mes [:jan :fev :mar :abr :mai :jun :jul :ago :set :out :nov :dez]]
+  (for [mes meses]
     {mes (formata-hora (reduce + (mes mapa)))}))
 
 (defn sumario [mapa & args]
@@ -52,12 +54,14 @@
     (pprint (sumariza ponto))
     (salva "ponto.map" ponto)))
 
-(comment 
-         (defn resumo [mapa & args]))
+(defn resumo [mapa & args]
+  (let [res (for [mes meses] (reduce +  (mes mapa)))] 
+    (pprint (formata-hora (reduce + res)))))
 
 (def funcionalidades
   {:sumario sumario
    :horas horas
+   :resumo resumo
    :gravar gravar})
 
 (defn -main [& args]
