@@ -73,10 +73,14 @@
         minutos (cond 
                  (and (str/includes? p "m") (str/includes? p "h")) (first (str/split (second (str/split p #"h")) #"m")) 
                  (str/includes? p "m")  (first (str/split p #"m")) 
+                 (and (not (str/includes? p "m")) (str/includes? p "h")) (second (str/split p #"h")) 
+                 (and (not (str/includes? p "m")) (not (str/includes? p "h"))) p
                  :else "0")] 
     (+
      (* 60 (read-string horas))
-     (read-string minutos))))
+     (if minutos 
+       (read-string minutos) 
+       0))))
 
 (defn calcula "Obrigatorio ser no formato 3h23m, ou seja, com h e m"
 [mapa & args]
